@@ -41,6 +41,7 @@ h2{font-size:clamp(24px,3.5vw,34px);line-height:1.25;margin:0 0 10px;color:#fff;
 .lead{color:var(--muted);max-width:680px;margin:0 0 30px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.card.wide{grid-column:1/-1}
 .card h3{margin:0 0 6px;font-size:17px;color:#fff}
 .card p{margin:0;color:var(--muted);font-size:15px}
 .band{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -59,7 +60,7 @@ footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);f
 footer .row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
 [data-zh]{display:none}
 body.zh [data-zh]{display:revert}body.zh [data-en]{display:none}
-@media(max-width:820px){.grid,.price,.shots,.two{grid-template-columns:1fr}.two{gap:24px}nav .links a.hide-s{display:none}}
+@media(max-width:820px){.grid,.price,.shots,.two{grid-template-columns:1fr}.card.wide{grid-column:auto}.two{gap:24px}nav .links a.hide-s{display:none}}
 </style>
 </head>
 <body>
@@ -100,6 +101,7 @@ body.zh [data-zh]{display:revert}body.zh [data-en]{display:none}
     <div class="card"><h3><span data-en>Judgment scoring</span><span data-zh>判斷評分</span></h3><p><span data-en>Write down your own market calls. When they expire, they are graded against actual closing prices. Only you can see them.</span><span data-zh>記下自己的市場判斷，到期後用實際收盤價評分，只有你看得到。</span></p></div>
     <div class="card"><h3><span data-en>Scam checker</span><span data-zh>詐騙檢查</span></h3><p><span data-en>Free and no login: risk flags for EVM addresses plus community reports.</span><span data-zh>免費、不用登入：EVM 地址的風險標記與社群回報。</span></p></div>
     <div class="card"><h3><span data-en>Bring your own key</span><span data-zh>自帶金鑰</span></h3><p><span data-en>Use 13 AI providers with your own API key, encrypted at rest. Guests get a few free questions every day.</span><span data-zh>支援 13 家 AI 供應商，用你自己的 API 金鑰，加密儲存。訪客每天有少量免費提問。</span></p></div>
+    <div class="card wide"><h3><span data-en>Friends and chat</span><span data-zh>好友與聊天室</span></h3><p><span data-en>Add friends and talk one-to-one with real-time delivery, typing indicators, replies, reactions and unsend. Call in the AI assistant from inside a chat to look something up together, without leaving the conversation.</span><span data-zh>加好友、一對一聊天，即時送達並顯示對方輸入中，支援回覆、表情與收回訊息。聊天時可以直接叫出 AI 助理一起查資料，不用離開對話。</span></p></div>
   </div>
 </div></section>
 
