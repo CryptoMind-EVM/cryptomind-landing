@@ -1,775 +1,174 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CryptoMind — AI 驅動的加密分析 × TON 社群生態</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CryptoMind — AI market analyst and ledger</title>
+<meta name="description" content="AI market analyst and money ledger for crypto, US and Taiwan stocks. Non-custodial, on Base. Analysis, not financial advice.">
+<meta property="og:title" content="CryptoMind — AI market analyst and ledger">
+<meta property="og:description" content="Ask AI about crypto, US and Taiwan stocks. Live data, visible reasoning, one ledger. Analysis, not financial advice.">
+<meta property="og:image" content="https://aaaa47080.github.io/cryptomind-landing/img/shot-chat.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="img/icon-128.png">
 <style>
-/* ===== RESET & BASE ===== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e17;--panel:#111827;--line:#1f2937;--text:#e5e7eb;--muted:#9ca3af;--accent:#0b8ae6;--accent-2:#38bdf8}
+*{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:#0a0e1a;color:#eef2f8;line-height:1.6;overflow-x:hidden}
-img{max-width:100%;display:block}
-a{color:#0098EA;text-decoration:none;transition:color .3s}
-a:hover{color:#33b5f0}
-
-/* ===== UTILITY ===== */
-.container{max-width:1200px;margin:0 auto;padding:0 24px}
-.section{padding:100px 0;position:relative}
-.section-title{font-family:'Sora',sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:16px;line-height:1.15;letter-spacing:-.02em}
-.section-subtitle{font-size:1.1rem;color:#8b95a8;max-width:600px;margin-bottom:56px;font-weight:300}
-.tag{display:inline-block;padding:6px 14px;border:1px solid rgba(0,152,234,.3);border-radius:100px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:#0098EA;margin-bottom:20px;background:rgba(0,152,234,.05)}
-
-/* ===== GRID PATTERN OVERLAY ===== */
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background-image:linear-gradient(rgba(0,152,234,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,152,234,.025) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,#000 0%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,#000 0%,transparent 75%)}
-
-/* ===== NAV ===== */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;background:rgba(10,14,26,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,152,234,.1);display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:700;color:#eef2f8;letter-spacing:-.02em}
-.nav-logo span{color:#0098EA}
-.nav-links{display:flex;gap:32px;align-items:center;list-style:none}
-.nav-links a{font-size:.875rem;color:#8b95a8;transition:color .3s}
-.nav-links a:hover{color:#eef2f8}
-.nav-cta{padding:8px 20px;background:#0098EA;border-radius:8px;color:#fff!important;font-weight:600;font-size:.875rem;transition:all .3s}
-.nav-cta:hover{background:#007cc7;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,152,234,.4)}
-
-/* ===== HERO ===== */
-.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding-top:80px}
-.hero::before{content:'';position:absolute;top:-30%;right:-20%;width:800px;height:800px;background:radial-gradient(circle,rgba(0,152,234,.12) 0%,transparent 65%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-30%;left:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%);pointer-events:none}
-.hero-content{position:relative;z-index:2;max-width:720px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(0,152,234,.1);border:1px solid rgba(0,152,234,.25);border-radius:100px;font-size:.8rem;color:#00d4ff;margin-bottom:32px}
-.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;box-shadow:0 0 8px #4ade80}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1{font-family:'Sora',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.08;margin-bottom:24px;letter-spacing:-.03em}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,#0098EA,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:clamp(1rem,2vw,1.2rem);color:#8b95a8;max-width:560px;margin-bottom:40px;line-height:1.8}
-.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
-.btn-primary{padding:14px 32px;background:#0098EA;border:none;border-radius:10px;color:#fff!important;font-weight:600;font-size:.95rem;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif}
-.btn-primary:hover{background:#007cc7;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,152,234,.35)}
-.btn-secondary{padding:14px 32px;background:transparent;border:1px solid rgba(0,152,234,.3);border-radius:10px;color:#eef2f8!important;font-weight:500;font-size:.95rem;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
-.btn-secondary:hover{border-color:#0098EA;background:rgba(0,152,234,.08)}
-
-/* ===== LANGUAGE SWITCHER ===== */
-.lang-switcher{position:relative;display:inline-block}
-.lang-btn{background:transparent;border:1px solid rgba(0,152,234,.25);color:#8b95a8;border-radius:8px;padding:8px 12px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .3s;font-family:'Plus Jakarta Sans',sans-serif}
-.lang-btn:hover{border-color:#0098EA;color:#eef2f8}
-.lang-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;background:#0d1322;border:1px solid rgba(0,152,234,.2);border-radius:12px;overflow:hidden;min-width:140px;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:200}
-.lang-menu.open{display:block}
-.lang-menu button{display:block;width:100%;padding:10px 16px;background:transparent;border:none;color:#8b95a8;font-size:.85rem;text-align:left;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif}
-.lang-menu button:hover{background:rgba(0,152,234,.1);color:#eef2f8}
-.lang-menu button.active{color:#0098EA;font-weight:600}
-
-/* ===== ABOUT / STORY ===== */
-.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
-@media(max-width:768px){.story-grid{grid-template-columns:1fr;gap:40px}}
-.story-text .highlight{font-family:'Sora',sans-serif;font-size:1.6rem;line-height:1.45;margin-bottom:24px;font-weight:400;letter-spacing:-.01em}
-.story-text p{color:#8b95a8;margin-bottom:16px}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
-.stat-item{text-align:center;padding:24px;background:rgba(0,152,234,.04);border-radius:12px;border:1px solid rgba(0,152,234,.1)}
-.stat-number{font-family:'Sora',sans-serif;font-size:2rem;font-weight:700;color:#00d4ff;letter-spacing:-.02em}
-.stat-label{font-size:.8rem;color:#8b95a8;margin-top:4px}
-
-/* ===== FEATURES ===== */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
-.feature-card{background:rgba(255,255,255,.02);border:1px solid rgba(0,152,234,.1);border-radius:16px;padding:32px;transition:all .4s;position:relative;overflow:hidden}
-.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#0098EA,transparent);opacity:0;transition:opacity .4s}
-.feature-card:hover{background:rgba(0,152,234,.05);border-color:rgba(0,152,234,.3);transform:translateY(-4px)}
-.feature-card:hover::before{opacity:1}
-.feature-icon{width:48px;height:48px;border-radius:12px;background:rgba(0,152,234,.12);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:20px}
-.feature-card h3{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
-.feature-card p{font-size:.9rem;color:#8b95a8;line-height:1.7}
-.feature-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
-.feature-tags span{padding:3px 10px;background:rgba(0,152,234,.08);border-radius:100px;font-size:.72rem;color:#00d4ff}
-
-/* ===== LIVE DEMO ===== */
-.demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:28px}
-.demo-card{background:rgba(255,255,255,.02);border:1px solid rgba(0,152,234,.1);border-radius:16px;padding:20px;transition:all .4s;position:relative;overflow:hidden}
-.demo-card:hover{background:rgba(0,152,234,.05);border-color:rgba(0,152,234,.3);transform:translateY(-4px)}
-.demo-card video,.demo-card img{width:100%;border-radius:10px;border:1px solid rgba(0,152,234,.15);aspect-ratio:16/9;object-fit:cover;background:#0a0e1a}
-.demo-card h3{font-family:'Sora',sans-serif;font-size:1.05rem;font-weight:600;margin:14px 0 8px;letter-spacing:-.01em}
-.demo-card p{font-size:.85rem;color:#8b95a8;line-height:1.6}
-.demo-query{display:inline-block;margin-top:10px;padding:4px 12px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#00d4ff}
-
-/* ===== TEAM ===== */
-.team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-.team-card{background:rgba(255,255,255,.02);border:1px solid rgba(0,152,234,.1);border-radius:16px;padding:32px 28px;text-align:center;transition:all .4s;position:relative;overflow:hidden}
-.team-card:hover{background:rgba(0,152,234,.05);border-color:rgba(0,152,234,.3);transform:translateY(-4px)}
-.team-avatar{width:120px;height:120px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:2rem;font-weight:700;color:#fff;background:linear-gradient(135deg,#0098EA,#00d4ff);box-shadow:0 8px 24px rgba(0,152,234,.3)}
-img.team-avatar{object-fit:cover;border:2px solid rgba(0,152,234,.3);background:#0a0e1a}
-.team-card h3{font-family:'Sora',sans-serif;font-size:1.15rem;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
-.team-role{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#00d4ff;margin-bottom:12px;font-weight:600}
-.team-card p{font-size:.88rem;color:#8b95a8;line-height:1.7;margin-bottom:16px}
-.team-links{display:flex;justify-content:center;gap:12px}
-.team-links a{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:#8b95a8;padding:6px 14px;border:1px solid rgba(0,152,234,.2);border-radius:100px;transition:all .3s}
-.team-links a:hover{color:#00d4ff;border-color:#00d4ff;background:rgba(0,212,255,.06)}
-
-/* ===== TON SECTION ===== */
-.ton-section{background:linear-gradient(180deg,#0a0e1a 0%,rgba(0,152,234,.04) 50%,#0a0e1a 100%);border-top:1px solid rgba(0,152,234,.1);border-bottom:1px solid rgba(0,152,234,.1)}
-.ton-visual{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-@media(max-width:768px){.ton-visual{grid-template-columns:1fr;gap:40px}}
-.ton-flow{display:flex;flex-direction:column;gap:16px}
-.ton-step{display:flex;align-items:flex-start;gap:16px;padding:16px;background:rgba(255,255,255,.02);border-radius:12px;border:1px solid rgba(0,152,234,.08)}
-.ton-step-num{width:32px;height:32px;border-radius:50%;background:rgba(0,152,234,.15);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;color:#00d4ff;flex-shrink:0;font-family:'Sora',sans-serif}
-.ton-step h4{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:600;margin-bottom:4px}
-.ton-step p{font-size:.85rem;color:#8b95a8}
-.ton-prices{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
-.ton-price-card{padding:20px;background:rgba(0,152,234,.04);border-radius:12px;border:1px solid rgba(0,152,234,.1);text-align:center}
-.ton-price-card .amount{font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:700;color:#00d4ff;letter-spacing:-.02em}
-.ton-price-card .label{font-size:.85rem;color:#8b95a8;margin-top:4px}
-
-/* ===== PRICING ===== */
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:900px;margin:0 auto}
-.pricing-card{background:rgba(255,255,255,.02);border:1px solid rgba(0,152,234,.1);border-radius:20px;padding:40px 32px;text-align:center;transition:all .4s;position:relative}
-.pricing-card:hover{transform:translateY(-4px);border-color:rgba(0,152,234,.3)}
-.pricing-card.featured{background:linear-gradient(180deg,rgba(0,152,234,.1),rgba(255,255,255,.02));border-color:rgba(0,152,234,.3)}
-.pricing-card.featured::after{content:'BEST VALUE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);padding:4px 16px;background:#0098EA;border-radius:100px;font-size:.7rem;font-weight:700;color:#fff;letter-spacing:.08em;font-family:'Sora',sans-serif}
-.pricing-name{font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;color:#8b95a8;margin-bottom:8px}
-.pricing-price{font-family:'Sora',sans-serif;font-size:3rem;font-weight:800;color:#eef2f8;margin-bottom:4px;letter-spacing:-.03em}
-.pricing-price span{font-size:1rem;color:#8b95a8;font-family:'Plus Jakarta Sans',sans-serif;font-weight:400}
-.pricing-period{font-size:.85rem;color:#8b95a8;margin-bottom:32px}
-.pricing-features{list-style:none;text-align:left;margin-bottom:32px}
-.pricing-features li{padding:10px 0;font-size:.9rem;color:#c5cdd9;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.04)}
-.pricing-features li::before{content:'✓';color:#0098EA;font-weight:700}
-.pricing-features li.missing{color:#4a5263}
-.pricing-features li.missing::before{content:'✕';color:#4a5263}
-
-/* ===== ROADMAP ===== */
-.roadmap{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
-.roadmap-item{padding:24px;background:rgba(255,255,255,.02);border-radius:12px;border:1px solid rgba(0,152,234,.08);position:relative}
-.roadmap-item .phase{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:#0098EA;margin-bottom:8px;font-family:'Sora',sans-serif}
-.roadmap-item h4{font-family:'Sora',sans-serif;font-size:1rem;font-weight:600;margin-bottom:8px}
-.roadmap-item p{font-size:.85rem;color:#8b95a8}
-.roadmap-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
-.roadmap-dot.done{background:#4ade80}
-.roadmap-dot.current{background:#0098EA;animation:pulse 2s infinite;box-shadow:0 0 8px #0098EA}
-.roadmap-dot.next{background:#4a5263}
-
-/* ===== SUPPORT ===== */
-.support-section{background:linear-gradient(180deg,#0a0e1a 0%,rgba(0,152,234,.05) 100%)}
-.donation-box{max-width:600px;margin:0 auto;background:rgba(255,255,255,.02);border:1px solid rgba(0,152,234,.15);border-radius:20px;padding:40px}
-.donation-box h3{font-family:'Sora',sans-serif;font-size:1.5rem;margin-bottom:16px;text-align:center;letter-spacing:-.01em}
-.donation-box p{text-align:center;color:#8b95a8;margin-bottom:32px;font-size:.9rem}
-.wallet-group{margin-bottom:20px}
-.wallet-group label{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:#00d4ff;margin-bottom:8px;font-weight:600}
-.wallet-address{display:flex;align-items:center;gap:12px;padding:14px 18px;background:rgba(0,0,0,.3);border:1px solid rgba(0,152,234,.12);border-radius:10px;font-family:'JetBrains Mono','Courier New',monospace;font-size:.8rem;color:#c5cdd9;word-break:break-all;cursor:pointer;transition:border-color .3s}
-.wallet-address:hover{border-color:rgba(0,152,234,.4)}
-.wallet-address .copy-btn{flex-shrink:0;padding:6px 12px;background:rgba(0,152,234,.15);border:none;border-radius:6px;color:#00d4ff;font-size:.75rem;cursor:pointer;transition:background .3s;font-family:'Plus Jakarta Sans',sans-serif}
-.wallet-address .copy-btn:hover{background:rgba(0,152,234,.3)}
-.wallet-note{font-size:.8rem;color:#4a5263;margin-top:4px}
-.ton-donation-link{display:block;text-align:center;margin-top:24px;padding:16px;background:rgba(0,152,234,.1);border:1px solid rgba(0,152,234,.2);border-radius:12px;color:#00d4ff;font-weight:500;transition:all .3s}
-.ton-donation-link:hover{background:rgba(0,152,234,.18);color:#33d8ff}
-
-/* ===== FOOTER ===== */
-footer{text-align:center;padding:40px 24px;border-top:1px solid rgba(0,152,234,.08);color:#4a5263;font-size:.85rem}
-footer a{color:#8b95a8}
-footer a:hover{color:#0098EA}
-.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap}
-
-/* ===== ANIMATIONS ===== */
-.animate{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
-.animate.visible{opacity:1;transform:translateY(0)}
-.animate-delay-1{transition-delay:.1s}
-.animate-delay-2{transition-delay:.2s}
-.animate-delay-3{transition-delay:.3s}
-.animate-delay-4{transition-delay:.4s}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-  .nav-links{display:none}
-  .hero{padding-top:100px}
-  .stats-row{grid-template-columns:1fr}
-  .ton-prices{grid-template-columns:1fr}
-  .team-grid{grid-template-columns:1fr}
-  .section{padding:60px 0}
-}
-
-@media(max-width:480px){
-  .hero-actions{flex-direction:column}
-  .btn-primary,.btn-secondary{width:100%;justify-content:center}
-  .features-grid{grid-template-columns:1fr}
-}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-2);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:5;background:rgba(10,14,23,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff}
+.brand img{width:28px;height:28px;border-radius:7px}
+nav .links{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:14px}
+nav .links a{color:var(--muted)}nav .links a:hover{color:#fff;text-decoration:none}
+.btn{display:inline-block;border-radius:10px;padding:11px 20px;font-weight:600;font-size:15px;border:1px solid transparent}
+.btn.primary{background:var(--accent);color:#fff}.btn.primary:hover{background:#0a7acc;text-decoration:none}
+.btn.ghost{border-color:var(--line);color:var(--text)}.btn.ghost:hover{border-color:var(--muted);text-decoration:none}
+nav .btn{padding:7px 14px;font-size:14px}
+.lang{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:13px;cursor:pointer}
+.lang:hover{color:#fff;border-color:var(--muted)}
+.hero{padding:72px 0 40px;text-align:center}
+.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.15;margin:0 0 18px;color:#fff;letter-spacing:-.02em}
+.hero p.sub{max-width:640px;margin:0 auto 28px;color:var(--muted);font-size:clamp(16px,2.2vw,19px)}
+.hero .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero .note{margin-top:18px;font-size:13px;color:var(--muted)}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:44px 0 8px}
+.shots img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);display:block}
+section{padding:56px 0}
+h2{font-size:clamp(24px,3.5vw,34px);line-height:1.25;margin:0 0 10px;color:#fff;letter-spacing:-.01em}
+.lead{color:var(--muted);max-width:680px;margin:0 0 30px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.card h3{margin:0 0 6px;font-size:17px;color:#fff}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.band{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.list{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.list li{padding-left:28px;position:relative;color:var(--text)}
+.list li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.list small{display:block;color:var(--muted);font-size:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.price{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.price .card.hl{border-color:var(--accent)}
+.price .amt{font-size:26px;font-weight:700;color:#fff;margin:4px 0 8px}
+.price .amt span{font-size:14px;color:var(--muted);font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:14px;color:var(--text);background:var(--panel)}
+footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);font-size:13px}
+footer .row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
+[data-zh]{display:none}
+body.zh [data-zh]{display:revert}body.zh [data-en]{display:none}
+@media(max-width:820px){.grid,.price,.shots,.two{grid-template-columns:1fr}.two{gap:24px}nav .links a.hide-s{display:none}}
 </style>
 </head>
 <body>
+<nav><div class="wrap">
+  <a class="brand" href="#top"><img src="img/icon-128.png" alt="">CryptoMind</a>
+  <div class="links">
+    <a class="hide-s" href="#features"><span data-en>Features</span><span data-zh>功能</span></a>
+    <a class="hide-s" href="#safety"><span data-en>Safety</span><span data-zh>安全</span></a>
+    <a class="hide-s" href="#pricing"><span data-en>Pricing</span><span data-zh>方案</span></a>
+    <a class="hide-s" href="https://github.com/CryptoMind-EVM/cryptomind">GitHub</a>
+    <button class="lang" id="lang" type="button" aria-label="Language">繁中</button>
+    <a class="btn primary" href="https://getcryptomind.com"><span data-en>Open app</span><span data-zh>開啟應用</span></a>
+  </div>
+</div></nav>
 
-<!-- ===== NAV ===== -->
-<nav>
-  <div class="nav-logo">Crypto<span>Mind</span></div>
-  <ul class="nav-links">
-    <li><a href="#story" data-i18n="關於">關於</a></li>
-    <li><a href="#features" data-i18n="功能">功能</a></li>
-    <li><a href="#demo">Demo</a></li>
-    <li><a href="#ton">TON</a></li>
-    <li><a href="#team" data-i18n="團隊">團隊</a></li>
-    <li><a href="#pricing" data-i18n="方案">方案</a></li>
-    <li><a href="#support" data-i18n="支持">支持</a></li>
-    <li><a href="https://cryptomind-ton.zeabur.app" class="nav-cta" target="_blank" data-i18n="開啟 App →">開啟 App →</a></li>
-    <li>
-      <div class="lang-switcher">
-        <button class="lang-btn" id="lang-btn" type="button" aria-label="Language">
-          <span id="lang-current">🌐</span>
-        </button>
-        <div class="lang-menu" id="lang-menu">
-          <button type="button" data-lang="zh-TW">繁體中文</button>
-          <button type="button" data-lang="en">English</button>
-          <button type="button" data-lang="zh-CN">简体中文</button>
-          <button type="button" data-lang="ru">Русский</button>
-        </div>
-      </div>
-    </li>
+<header class="hero" id="top"><div class="wrap">
+  <h1><span data-en>Ask AI about crypto,<br>US &amp; Taiwan stocks</span><span data-zh>用 AI 看懂加密貨幣、<br>美股與台股</span></h1>
+  <p class="sub"><span data-en>Live prices, news, on-chain data and company filings, with the reasoning shown. Log your trades and spending by chatting, and keep it all in one ledger.</span><span data-zh>即時價格、新聞、鏈上資料與公司財報，並顯示推理過程。用聊天記錄交易與開支，全部放在同一本帳裡。</span></p>
+  <div class="cta">
+    <a class="btn primary" href="https://getcryptomind.com"><span data-en>Try it free, no wallet needed</span><span data-zh>免費試用，不需錢包</span></a>
+    <a class="btn ghost" href="https://t.me/getcryptomind_bot"><span data-en>Open in Telegram</span><span data-zh>在 Telegram 開啟</span></a>
+  </div>
+  <p class="note"><span data-en>Analysis, not financial advice. CryptoMind never holds your funds and never trades for you.</span><span data-zh>提供分析，不構成投資建議。CryptoMind 不持有你的資金，也不代為交易。</span></p>
+  <div class="shots">
+    <img src="img/shot-chat.png" alt="Chat with the AI analyst" loading="lazy">
+    <img src="img/shot-ledger.png" alt="One ledger for stocks and crypto" loading="lazy">
+    <img src="img/shot-calendar.png" alt="Money calendar and daily brief" loading="lazy">
+  </div>
+</div></header>
+
+<section id="features"><div class="wrap">
+  <h2><span data-en>What you can do</span><span data-zh>你可以做什麼</span></h2>
+  <p class="lead"><span data-en>One assistant for following the market and keeping track of your own money.</span><span data-zh>一個助理，同時幫你追蹤市場與整理自己的錢。</span></p>
+  <div class="grid">
+    <div class="card"><h3><span data-en>AI market analysis</span><span data-zh>AI 行情分析</span></h3><p><span data-en>A tool-using agent pulls live prices, technicals, news, on-chain data and filings, then explains how it got there. Crypto, US and Taiwan stocks; market pages also cover HK, JP, KR, A-shares, commodities and forex.</span><span data-zh>會使用工具的 agent 抓取即時價格、技術指標、新聞、鏈上資料與財報，並說明推論過程。涵蓋加密貨幣、美股、台股；市場頁另含港日韓陸股、商品與外匯。</span></p></div>
+    <div class="card"><h3><span data-en>One ledger</span><span data-zh>統一帳本</span></h3><p><span data-en>Log expenses, income and trades by chatting. Nothing is saved until you approve a card. Bind a Base wallet and transfers sync as verified holdings.</span><span data-zh>用對話記支出、收入與交易，按下確認卡片前不會儲存。綁定 Base 錢包後，轉帳會同步成已驗證持倉。</span></p></div>
+    <div class="card"><h3><span data-en>Money calendar</span><span data-zh>錢的行事曆</span></h3><p><span data-en>Earnings, Taiwan monthly revenue, token unlocks, FOMC / CPI / jobs reports and your own reminders, with an optional 08:00 daily brief.</span><span data-zh>財報、台股月營收、代幣解鎖、FOMC／CPI／非農與你自己的提醒，可選每天 08:00 的早報。</span></p></div>
+    <div class="card"><h3><span data-en>Judgment scoring</span><span data-zh>判斷評分</span></h3><p><span data-en>Write down your own market calls. When they expire, they are graded against actual closing prices. Only you can see them.</span><span data-zh>記下自己的市場判斷，到期後用實際收盤價評分，只有你看得到。</span></p></div>
+    <div class="card"><h3><span data-en>Scam checker</span><span data-zh>詐騙檢查</span></h3><p><span data-en>Free and no login: risk flags for EVM addresses plus community reports.</span><span data-zh>免費、不用登入：EVM 地址的風險標記與社群回報。</span></p></div>
+    <div class="card"><h3><span data-en>Bring your own key</span><span data-zh>自帶金鑰</span></h3><p><span data-en>Use 13 AI providers with your own API key, encrypted at rest. Guests get a few free questions every day.</span><span data-zh>支援 13 家 AI 供應商，用你自己的 API 金鑰，加密儲存。訪客每天有少量免費提問。</span></p></div>
+  </div>
+</div></section>
+
+<section class="band" id="safety"><div class="wrap two">
+  <div>
+    <h2><span data-en>Built to stay out of your way, and out of your wallet</span><span data-zh>不碰你的錢，也不替你做決定</span></h2>
+    <p class="lead" style="margin-bottom:0"><span data-en>CryptoMind is a data and analysis tool. It is not a broker, an exchange or an advisor.</span><span data-zh>CryptoMind 是資料與分析工具，不是券商、交易所，也不是投資顧問。</span></p>
+  </div>
+  <ul class="list">
+    <li><span data-en><b>Non-custodial.</b> We never hold your funds or private keys.</span><span data-zh><b>非託管。</b>我們不持有你的資金或私鑰。</span></li>
+    <li><span data-en><b>No trading.</b> It never places orders or moves money for you.</span><span data-zh><b>不代為交易。</b>不會替你下單或轉帳。</span></li>
+    <li><span data-en><b>You approve every write.</b> Ledger entries need your confirmation first.</span><span data-zh><b>寫入要你確認。</b>帳本資料必須先經你同意。</span></li>
+    <li><span data-en><b>Sign in with your wallet.</b> Sign-In with Ethereum: a signature, no transaction, no gas.</span><span data-zh><b>錢包簽名登入。</b>Sign-In with Ethereum：只簽名，不送交易、不花 gas。</span></li>
+    <li><span data-en><b>Open source.</b> Read the code on <a href="https://github.com/CryptoMind-EVM/cryptomind">GitHub</a> (Apache-2.0).</span><span data-zh><b>開源。</b>程式碼公開在 <a href="https://github.com/CryptoMind-EVM/cryptomind">GitHub</a>（Apache-2.0）。</span></li>
   </ul>
-</nav>
+</div></section>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="container hero-content">
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      <span data-i18n="已上線 TON Mainnet · TON Connect 整合">已上線 TON Mainnet · TON Connect 整合</span>
-    </div>
-    <h1 data-i18n="hero.title">
-      AI 驅動的分析<br>
-      <em>×</em> TON 社群生態
-    </h1>
-    <p data-i18n="hero.subtitle">
-      CryptoMind 結合 LangGraph AI 智能體分析、即時市場數據、<br>
-      和 PTT 風格社群論壇 — 全部透過 TON 區塊鏈串聯。
-    </p>
-    <div class="hero-actions">
-      <a href="https://cryptomind-ton.zeabur.app" class="btn-primary" target="_blank" data-i18n="開啟 CryptoMind →">
-        開啟 CryptoMind →
-      </a>
-      <a href="#features" class="btn-secondary" data-i18n="了解更多">了解更多</a>
-    </div>
+<section><div class="wrap">
+  <h2><span data-en>Use it where you already are</span><span data-zh>在你習慣的地方使用</span></h2>
+  <p class="lead"><span data-en>One account and one conversation across every channel. The interface is available in English, Traditional Chinese, Simplified Chinese and Russian.</span><span data-zh>同一個帳號、同一段對話，跨所有通路。介面支援英文、繁體中文、簡體中文與俄文。</span></p>
+  <div class="chips">
+    <span class="chip">Web app (PWA)</span><span class="chip">Telegram bot</span><span class="chip">LINE bot</span><span class="chip">Base mini app</span>
   </div>
-</section>
+</div></section>
 
-<!-- ===== STORY ===== -->
-<section class="section" id="story">
-  <div class="container">
-    <div class="story-grid">
-      <div class="story-text animate">
-        <div class="tag">Our Story</div>
-        <h2 class="section-title" data-i18n="story.title">從 Pi 到 TON —<br>一次深思的遷移，<br>一個更好的選擇</h2>
-        <p class="highlight" data-i18n="我們最初在 Pi Network 上打造了完整的平台，並在產品發展過程中持續探索最適合的生態。如今，CryptoMind 以 TON 為核心，從零開始 0-to-1 重新打造——專注於 AI 分析與社群體驗。">我們最初在 Pi Network 上打造了完整的平台，並在產品發展過程中持續探索最適合的生態。如今，CryptoMind 以 TON 為核心，從零開始 0-to-1 重新打造——專注於 AI 分析與社群體驗。</p>
-        <p data-i18n="四個人，三個月，從 Pi SDK 全面換成 TON Connect，從 Pi 付款換成鏈上 TON 驗證。認證、付款、訂閱、打賞 — 全部重寫。結果是 CryptoMind 成為了 TON 生態上少數同時具備 AI 分析和社群功能的 Web DApp。">四個人，三個月，從 Pi SDK 全面換成 TON Connect，從 Pi 付款換成鏈上 TON 驗證。認證、付款、訂閱、打賞 — 全部重寫。結果是 CryptoMind 成為了 TON 生態上少數同時具備 AI 分析和社群功能的 Web DApp。</p>
-        <p data-i18n="我們是獨立開發團隊，沒有任何機構資助。這是一個由開發者為開發者、交易者為交易者打造的平台。">我們是獨立開發團隊，沒有任何機構資助。這是一個由開發者為開發者、交易者為交易者打造的平台。</p>
-      </div>
-      <div class="animate animate-delay-2">
-        <div class="stats-row" style="margin-top:0">
-          <div class="stat-item">
-            <div class="stat-number">4</div>
-            <div class="stat-label" data-i18n="團隊人數">團隊人數</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">300+</div>
-            <div class="stat-label" data-i18n="API 路由">API 路由</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">3,200+</div>
-            <div class="stat-label" data-i18n="自動化測試">自動化測試</div>
-          </div>
-        </div>
-        <div class="stats-row" style="margin-top:16px;grid-template-columns:repeat(2,1fr)">
-          <div class="stat-item">
-            <div class="stat-number">3+</div>
-            <div class="stat-label" data-i18n="核心市場資料源">核心市場資料源</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">85+</div>
-            <div class="stat-label" data-i18n="LangChain AI 工具">LangChain AI 工具</div>
-          </div>
-        </div>
-      </div>
-    </div>
+<section class="band" id="pricing"><div class="wrap">
+  <h2><span data-en>Simple pricing</span><span data-zh>單純的方案</span></h2>
+  <p class="lead"><span data-en>Start without a wallet. Upgrade only if you want more.</span><span data-zh>不用錢包就能開始，需要更多再升級。</span></p>
+  <div class="price">
+    <div class="card"><h3><span data-en>Guest</span><span data-zh>訪客</span></h3><div class="amt">Free</div><p><span data-en>3 AI questions a day, no wallet needed. Scam checker included.</span><span data-zh>每天 3 題 AI 提問，不需錢包，含詐騙檢查。</span></p></div>
+    <div class="card hl"><h3>Premium</h3><div class="amt">$12 <span data-en>/ month</span><span data-zh>／月</span></div><p><span data-en>More markets and tools. Also $108 a year. Paid in USDC on Base from a wallet you bind.</span><span data-zh>更多市場與工具。年繳 $108。由你綁定的錢包在 Base 上支付 USDC。</span></p></div>
+    <div class="card"><h3><span data-en>Bring your own key</span><span data-zh>自帶金鑰</span></h3><div class="amt">Your API</div><p><span data-en>Connect your own provider key and use the models you already pay for.</span><span data-zh>接上你自己的供應商金鑰，用你已經在付費的模型。</span></p></div>
   </div>
-</section>
+</div></section>
 
-<!-- ===== FEATURES ===== -->
-<section class="section" id="features" style="background:rgba(0,152,234,.015);border-top:1px solid rgba(0,152,234,.08);border-bottom:1px solid rgba(0,152,234,.08)">
-  <div class="container">
-    <div class="tag animate">Features</div>
-    <h2 class="section-title animate" data-i18n="完整功能生態">完整功能生態</h2>
-    <p class="section-subtitle animate" data-i18n="從 AI 分析到社群互動，從即時數據到區塊鏈支付，一體化整合">從 AI 分析到社群互動，從即時數據到區塊鏈支付，一體化整合</p>
-    <div class="features-grid">
+<section><div class="wrap" style="text-align:center">
+  <h2><span data-en>Ready to try it?</span><span data-zh>準備好試試看了嗎？</span></h2>
+  <p class="lead" style="margin:0 auto 24px"><span data-en>Ask your first question in under a minute.</span><span data-zh>一分鐘內問出你的第一個問題。</span></p>
+  <a class="btn primary" href="https://getcryptomind.com"><span data-en>Open CryptoMind</span><span data-zh>開啟 CryptoMind</span></a>
+</div></section>
 
-      <div class="feature-card animate animate-delay-1">
-        <div class="feature-icon">🧠</div>
-        <h3 data-i18n="AI Agent 分析系統">AI Agent 分析系統</h3>
-        <p data-i18n="單一智能體整合 85+ 專業分析工具，涵蓋加密貨幣、美股、台股、日股、韓股、港／A 股、大宗商品、外匯。Human-in-the-Loop 互動執行。">單一智能體整合 85+ 專業分析工具，涵蓋加密貨幣、美股、台股、日股、韓股、港／A 股、大宗商品、外匯。Human-in-the-Loop 互動執行。</p>
-        <div class="feature-tags">
-          <span>LangGraph</span><span>85+ Tools</span><span>HitL</span>
-        </div>
-      </div>
-
-      <div class="feature-card animate animate-delay-1">
-        <div class="feature-icon">📊</div>
-        <h3 data-i18n="多市場數據覆蓋">多市場數據覆蓋</h3>
-        <p data-i18n="加密貨幣即時行情（OKX WebSocket）、台股（TWSE）、美股（Yahoo Finance）為核心資料源。另有港 / 日 / 韓 / A 股、外匯、大宗商品透過 yfinance 補充。">加密貨幣即時行情（OKX WebSocket）、台股（TWSE）、美股（Yahoo Finance）為核心資料源。另有港 / 日 / 韓 / A 股、外匯、大宗商品透過 yfinance 補充。</p>
-        <div class="feature-tags">
-          <span>OKX WebSocket</span><span data-i18n="即時 K 線">即時 K 線</span><span>Lightweight Charts</span>
-        </div>
-      </div>
-
-      <div class="feature-card animate animate-delay-2">
-        <div class="feature-icon">💬</div>
-        <h3 data-i18n="PTT 風格社群論壇">PTT 風格社群論壇</h3>
-        <p data-i18n="討論板塊（持續擴充）、標籤系統、推噓評價、TON 打賞。完整的社群互動體驗。">討論板塊（持續擴充）、標籤系統、推噓評價、TON 打賞。完整的社群互動體驗。</p>
-        <div class="feature-tags">
-          <span data-i18n="TON 打賞">TON 打賞</span><span data-i18n="聲譽系統">聲譽系統</span>
-        </div>
-      </div>
-
-      <div class="feature-card animate animate-delay-2">
-        <div class="feature-icon">👥</div>
-        <h3 data-i18n="社交生態">社交生態</h3>
-        <p data-i18n="好友系統、即時私訊（WebSocket）、通知中心、關注清單。免費版每日 20 則私訊，PRO 無限制。">好友系統、即時私訊（WebSocket）、通知中心、關注清單。免費版每日 20 則私訊，PRO 無限制。</p>
-        <div class="feature-tags">
-          <span data-i18n="即時聊天">即時聊天</span><span data-i18n="好友系統">好友系統</span>
-        </div>
-      </div>
-
-      <div class="feature-card animate animate-delay-3">
-        <div class="feature-icon">🔗</div>
-        <h3 data-i18n="TON 區塊鏈整合">TON 區塊鏈整合</h3>
-        <p data-i18n="TON Connect 錢包登入、鏈上付款驗證、訂閱 PRO / 打賞全部透過 TON。零傳統金流。">TON Connect 錢包登入、鏈上付款驗證、訂閱 PRO / 打賞全部透過 TON。零傳統金流。</p>
-        <div class="feature-tags">
-          <span>TON Connect</span><span data-i18n="鏈上驗證">鏈上驗證</span>
-        </div>
-      </div>
-
-      <div class="feature-card animate animate-delay-3">
-        <div class="feature-icon">🔒</div>
-        <h3 data-i18n="管理與安全">管理與安全</h3>
-        <p data-i18n="管理後台、內容審核、Scam Tracker 社群回報、治理投票、完整審計日誌。生產環境安全檢查。">管理後台、內容審核、Scam Tracker 社群回報、治理投票、完整審計日誌。生產環境安全檢查。</p>
-        <div class="feature-tags">
-          <span data-i18n="審計日誌">審計日誌</span><span>Scam Tracker</span>
-        </div>
-      </div>
-
-    </div>
+<footer><div class="wrap">
+  <div class="row">
+    <a href="https://getcryptomind.com">getcryptomind.com</a>
+    <a href="https://github.com/CryptoMind-EVM/cryptomind">GitHub</a>
+    <a href="https://t.me/getcryptomind_bot">Telegram</a>
+    <a href="mailto:brief@getcryptomind.com">brief@getcryptomind.com</a>
   </div>
-</section>
-
-<!-- ===== LIVE DEMO ===== -->
-<section class="section" id="demo">
-  <div class="container">
-    <div class="tag animate">Live Demo</div>
-    <h2 class="section-title animate" data-i18n="實際操作影片">實際操作影片</h2>
-    <p class="section-subtitle animate" data-i18n="用自然語言跟 AI 對話——查價格、比較資產、看指數，真實畫面">用自然語言跟 AI 對話——查價格、比較資產、看指數，真實畫面</p>
-    <div class="demo-grid">
-
-      <div class="demo-card animate animate-delay-1">
-        <video autoplay muted loop playsinline preload="none" poster="demo/scenario1_btc.gif">
-          <source src="demo/scenario1_btc_4k.mp4" type="video/mp4">
-          <img src="demo/scenario1_btc.gif" alt="BTC price demo">
-        </video>
-        <h3 data-i18n="BTC 即時價格">BTC 即時價格</h3>
-        <p data-i18n="一句話查加密貨幣即時價格，AI 秒回">一句話查加密貨幣即時價格，AI 秒回</p>
-        <span class="demo-query">What's the current price of BTC?</span>
-      </div>
-
-      <div class="demo-card animate animate-delay-2">
-        <video autoplay muted loop playsinline preload="none" poster="demo/scenario2_eth_sol.gif">
-          <source src="demo/scenario2_eth_sol_4k.mp4" type="video/mp4">
-          <img src="demo/scenario2_eth_sol.gif" alt="ETH vs SOL comparison demo">
-        </video>
-        <h3 data-i18n="多資產比較">多資產比較</h3>
-        <p data-i18n="ETH 與 SOL 深度技術比較，多工具協作分析">ETH 與 SOL 深度技術比較，多工具協作分析</p>
-        <span class="demo-query">Compare ETH and SOL recent performance</span>
-      </div>
-
-      <div class="demo-card animate animate-delay-3">
-        <video autoplay muted loop playsinline preload="none" poster="demo/scenario3_sp500.gif">
-          <source src="demo/scenario3_sp500_4k.mp4" type="video/mp4">
-          <img src="demo/scenario3_sp500.gif" alt="S&P 500 index demo">
-        </video>
-        <h3 data-i18n="指數盤勢">指數盤勢</h3>
-        <p data-i18n="S&amp;P 500 當日走勢，跨市場數據一手掌握">S&amp;P 500 當日走勢，跨市場數據一手掌握</p>
-        <span class="demo-query">What is the S&P 500 index doing today?</span>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== TON INTEGRATION ===== -->
-<section class="section ton-section" id="ton">
-  <div class="container">
-    <div class="tag animate">TON Blockchain</div>
-    <h2 class="section-title animate" data-i18n="100% Web3 — 全部透過 TON">100% Web3 — 全部透過 TON</h2>
-    <p class="section-subtitle animate" data-i18n="從登入到付款，從訂閱到打賞，每一筆交易都在鏈上可驗證">從登入到付款，從訂閱到打賞，每一筆交易都在鏈上可驗證</p>
-    <div class="ton-visual">
-      <div class="animate">
-        <div class="ton-flow">
-          <div class="ton-step">
-            <div class="ton-step-num">1</div>
-            <div>
-              <h4 data-i18n="TON Connect 錢包登入">TON Connect 錢包登入</h4>
-              <p data-i18n="Tonkeeper / MyTonWallet 一鍵授權，ed25519 簽章驗證，15 分鐘 nonce 過期保護">Tonkeeper / MyTonWallet 一鍵授權，ed25519 簽章驗證，15 分鐘 nonce 過期保護</p>
-            </div>
-          </div>
-          <div class="ton-step">
-            <div class="ton-step-num">2</div>
-            <div>
-              <h4 data-i18n="鏈上付款訂單">鏈上付款訂單</h4>
-              <p data-i18n="後端生成唯一 comment 綁定訂單，錢包發送 TON 到收款地址，toncenter API 掃鏈確認">後端生成唯一 comment 綁定訂單，錢包發送 TON 到收款地址，toncenter API 掃鏈確認</p>
-            </div>
-          </div>
-          <div class="ton-step">
-            <div class="ton-step-num">3</div>
-            <div>
-              <h4 data-i18n="即時開通權限">即時開通權限</h4>
-              <p data-i18n="付款確認後自動升級會員 / 完成打賞，防重複支付機制保障安全">付款確認後自動升級會員 / 完成打賞，防重複支付機制保障安全</p>
-            </div>
-          </div>
-        </div>
-        <div class="ton-prices">
-          <div class="ton-price-card">
-            <div class="amount">12 USD</div>
-            <div class="label" data-i18n="PRO 月費">PRO 月費</div>
-          </div>
-          <div class="ton-price-card">
-            <div class="amount">0.1 TON</div>
-            <div class="label" data-i18n="打賞作者">打賞作者</div>
-          </div>
-        </div>
-      </div>
-      <div class="animate animate-delay-2">
-        <div style="background:rgba(0,152,234,.04);border:1px solid rgba(0,152,234,.12);border-radius:20px;padding:32px">
-          <h3 style="font-family:'Sora',sans-serif;font-size:1.3rem;margin-bottom:20px;letter-spacing:-.01em" data-i18n="為什麼選 TON？">為什麼選 TON？</h3>
-          <ul style="list-style:none">
-            <li style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:12px">
-              <span style="color:#0098EA;font-weight:700">→</span>
-              <span data-i18n="ton.why.telegram"><strong>8 億 +</strong> Telegram 用戶，距離錢包只有一鍵之遙</span>
-            </li>
-            <li style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:12px">
-              <span style="color:#0098EA;font-weight:700">→</span>
-              <span data-i18n="手續費遠低於傳統金融，小額支付可行（0.1 TON 打賞）">手續費遠低於傳統金融，小額支付可行（0.1 TON 打賞）</span>
-            </li>
-            <li style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:12px">
-              <span style="color:#0098EA;font-weight:700">→</span>
-              <span data-i18n="TON 生態缺乏實用的金融 DApp，市場藍海">TON 生態缺乏實用的金融 DApp，市場藍海</span>
-            </li>
-            <li style="padding:12px 0;display:flex;gap:12px">
-              <span style="color:#0098EA;font-weight:700">→</span>
-              <span data-i18n="TON Connect SDK 成熟，開發體驗流暢">TON Connect SDK 成熟，開發體驗流暢</span>
-            </li>
-          </ul>
-          <div style="margin-top:24px;padding:16px;background:rgba(0,152,234,.08);border-radius:10px;font-size:.85rem;color:#8b95a8;text-align:center" data-i18n="⚡ 已上線 TON Mainnet · 部署於 Zeabur · 訂閱以 TON 即時匯率計價">
-            ⚡ 已上線 TON Mainnet · 部署於 Zeabur · 訂閱以 TON 即時匯率計價
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== TEAM ===== -->
-<section class="section" id="team" style="background:rgba(0,152,234,.015);border-top:1px solid rgba(0,152,234,.08);border-bottom:1px solid rgba(0,152,234,.08)">
-  <div class="container">
-    <div class="tag animate">Team</div>
-    <h2 class="section-title animate" data-i18n="team.title">獨立開發團隊</h2>
-    <p class="section-subtitle animate" data-i18n="team.subtitle">從架構到數據，從後端到生態——CryptoMind 由獨立開發者親手打造</p>
-    <div class="team-grid">
-
-      <div class="team-card animate animate-delay-1">
-        <img class="team-avatar" src="img/team-danny.jpg" alt="Danny Chen">
-        <h3 data-i18n="team.danny.name">陳鈺澔 Danny</h3>
-        <div class="team-role" data-i18n="team.danny.role">LLM &amp; AI-Agent Architect</div>
-        <p data-i18n="team.danny.bio">LLM 應用架構、AI Agent 工作流設計、信任層架構、Prompt Engineering</p>
-        <div class="team-links">
-          <a href="https://www.linkedin.com/in/%E9%88%BA%E6%BE%94-%E9%99%B3-128466197/" target="_blank" rel="noopener">LinkedIn ↗</a>
-        </div>
-      </div>
-
-      <div class="team-card animate animate-delay-2">
-        <img class="team-avatar" src="img/team-tsai.jpg" alt="Yun-Hsu Tsai">
-        <h3 data-i18n="team.tsaiyuxu.name">蔡昀旴 Yun-Hsu Tsai</h3>
-        <div class="team-role" data-i18n="team.tsaiyuxu.role">顧問 Advisor</div>
-        <p data-i18n="team.tsaiyuxu.bio">提供參考意見與建議，不參與技術設計</p>
-      </div>
-
-      <div class="team-card animate animate-delay-3">
-        <div class="team-avatar" style="background:linear-gradient(135deg,#00d4ff,#4ade80)">賴</div>
-        <h3 data-i18n="team.hungyu.name">賴弘育 Hung-Yu Lai</h3>
-        <div class="team-role" data-i18n="team.hungyu.role">Intelligent Data Retrieval</div>
-        <p data-i18n="team.hungyu.bio">金融數據爬蟲、資料清洗、即時資訊流、多市場行情整合</p>
-        <div class="team-links">
-          <a href="https://www.linkedin.com/in/%E5%BC%98%E8%82%B2-%E8%B3%B4-962355424/" target="_blank" rel="noopener">LinkedIn ↗</a>
-        </div>
-      </div>
-
-      <div class="team-card animate animate-delay-4">
-        <img class="team-avatar" src="img/team-shih.jpg" alt="Po-Chun Shih">
-        <h3 data-i18n="team.shih.name">施柏均 Po-Chun Shih</h3>
-        <div class="team-role" data-i18n="team.shih.role">Backend &amp; Infra Engineer</div>
-        <p data-i18n="team.shih.bio">高併發後端架構、資料庫優化、Docker 容器化、雲端部署</p>
-        <div class="team-links">
-          <a href="https://www.linkedin.com/in/%E6%9F%8F%E5%9D%87-%E6%96%BD-a37446306/" target="_blank" rel="noopener">LinkedIn ↗</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== PRICING ===== -->
-<section class="section" id="pricing">
-  <div class="container">
-    <div class="tag animate">Pricing</div>
-    <h2 class="section-title animate" style="text-align:center" data-i18n="選擇你的方案">選擇你的方案</h2>
-    <p class="section-subtitle animate" style="text-align:center;margin-left:auto;margin-right:auto" data-i18n="所有付款均透過 TON 鏈上完成，不需傳統信用卡；實際 TON 金額以 App 內即時報價為準">所有付款均透過 TON 鏈上完成，不需傳統信用卡；實際 TON 金額以 App 內即時報價為準</p>
-    <div class="pricing-grid">
-      <div class="pricing-card animate animate-delay-1">
-        <div class="pricing-name">Free</div>
-        <div class="pricing-price">0 <span>TON</span></div>
-        <div class="pricing-period" data-i18n="永久免費">永久免費</div>
-        <ul class="pricing-features">
-          <li data-i18n="閱讀所有文章">閱讀所有文章</li>
-          <li data-i18n="觀看 AI 分析報告">觀看 AI 分析報告</li>
-          <li data-i18n="基礎 AI 分析工具（50+ 種）">基礎 AI 分析工具（50+ 種）</li>
-          <li data-i18n="每日 20 則評論">每日 20 則評論</li>
-          <li data-i18n="私人訊息（每日 20 則）">私人訊息（每日 20 則）</li>
-          <li data-i18n="AI 長期記憶">AI 長期記憶</li>
-          <li data-i18n="TON 打賞作者">TON 打賞作者</li>
-          <li class="missing" data-i18n="無限評論與私人訊息">無限評論與私人訊息</li>
-          <li class="missing" data-i18n="高級 AI 工具（PRO 專屬）">高級 AI 工具（PRO 專屬）</li>
-          <li class="missing" data-i18n="自訂 System Prompt">自訂 System Prompt</li>
-        </ul>
-        <a href="https://cryptomind-ton.zeabur.app" class="btn-secondary" style="width:100%;justify-content:center" target="_blank" data-i18n="免費開始">免費開始</a>
-      </div>
-
-      <div class="pricing-card featured animate animate-delay-2">
-        <div class="pricing-name">PRO Monthly</div>
-        <div class="pricing-price">12 <span>USD</span></div>
-        <div class="pricing-period" data-i18n="每月 USD 12 · 依即時匯率以 TON 支付">每月 USD 12 · 依即時匯率以 TON 支付</div>
-        <ul class="pricing-features">
-          <li data-i18n="無限評論與私人訊息">無限評論與私人訊息</li>
-          <li data-i18n="高級 AI 工具（PRO 專屬）">高級 AI 工具（PRO 專屬）</li>
-          <li data-i18n="自訂 System Prompt">自訂 System Prompt</li>
-          <li data-i18n="PRO 身份徽章">PRO 身份徽章</li>
-        </ul>
-        <a href="https://cryptomind-ton.zeabur.app" class="btn-primary" style="width:100%;justify-content:center" target="_blank" data-i18n="訂閱 PRO">訂閱 PRO</a>
-      </div>
-
-      <div class="pricing-card animate animate-delay-3">
-        <div class="pricing-name">PRO Yearly</div>
-        <div class="pricing-price">108 <span>USD</span></div>
-        <div class="pricing-period" data-i18n="每年 USD 108 · 依即時匯率以 TON 支付">每年 USD 108 · 依即時匯率以 TON 支付</div>
-        <ul class="pricing-features">
-          <li data-i18n="所有 PRO 月費權益">所有 PRO 月費權益</li>
-          <li data-i18n="年繳省 25%（12 個月只付 9 個月）">年繳省 25%（12 個月只付 9 個月）</li>
-          <li data-i18n="相當於免費獲得 3 個月">相當於免費獲得 3 個月</li>
-        </ul>
-        <a href="https://cryptomind-ton.zeabur.app" class="btn-secondary" style="width:100%;justify-content:center" target="_blank" data-i18n="訂閱年費">訂閱年費</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== ROADMAP ===== -->
-<section class="section" style="background:rgba(0,152,234,.015);border-top:1px solid rgba(0,152,234,.08);border-bottom:1px solid rgba(0,152,234,.08)">
-  <div class="container">
-    <div class="tag animate">Roadmap</div>
-    <h2 class="section-title animate" data-i18n="下一步規劃">下一步規劃</h2>
-    <p class="section-subtitle animate" data-i18n="從 MVP 到生態系，我們的階段性目標">從 MVP 到生態系，我們的階段性目標</p>
-    <div class="roadmap">
-      <div class="roadmap-item animate animate-delay-1">
-        <span class="roadmap-dot done"></span><span class="phase" data-i18n="Phase 1 ✅ 已完成">Phase 1 ✅ 已完成</span>
-        <h4 data-i18n="TON 遷移 & MVP 上線">TON 遷移 & MVP 上線</h4>
-        <p data-i18n="Pi → TON 完整遷移，TON Connect 登入 + 付款，PRO 訂閱、論壇、AI 分析核心功能上線">Pi → TON 完整遷移，TON Connect 登入 + 付款，PRO 訂閱、論壇、AI 分析核心功能上線</p>
-      </div>
-      <div class="roadmap-item animate animate-delay-2">
-        <span class="roadmap-dot done"></span><span class="phase" data-i18n="Phase 2 ✅ 已完成">Phase 2 ✅ 已完成</span>
-        <h4 data-i18n="Mainnet 上線">Mainnet 上線</h4>
-        <p data-i18n="已切換 TON Mainnet，鏈上訂閱與打賞正式運行；效能與 onboarding 持續優化">已切換 TON Mainnet，鏈上訂閱與打賞正式運行；效能與 onboarding 持續優化</p>
-      </div>
-      <div class="roadmap-item animate animate-delay-3">
-        <span class="roadmap-dot current"></span><span class="phase" data-i18n="Phase 3 🔄 進行中">Phase 3 🔄 進行中</span>
-        <h4 data-i18n="Telegram Mini App & BYOK">Telegram Mini App & BYOK</h4>
-        <p data-i18n="Mini App 已提交上架（@CryptoMind_TON_BOT），Web ↔ Telegram 對話同步；BYOK 自帶 API 金鑰已上線">Mini App 已提交上架（@CryptoMind_TON_BOT），Web ↔ Telegram 對話同步；BYOK 自帶 API 金鑰已上線</p>
-      </div>
-      <div class="roadmap-item animate animate-delay-4">
-        <span class="roadmap-dot next"></span><span class="phase" data-i18n="Phase 4 📋 規劃中">Phase 4 📋 規劃中</span>
-        <h4 data-i18n="付費專欄 & 開放 API">付費專欄 & 開放 API</h4>
-        <p data-i18n="付費分析專欄、開放 API、更多市場覆蓋、行動端體驗優化">付費分析專欄、開放 API、更多市場覆蓋、行動端體驗優化</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SUPPORT ===== -->
-<section class="section support-section" id="support">
-  <div class="container">
-    <div class="tag animate">Support Us</div>
-    <h2 class="section-title animate" style="text-align:center" data-i18n="支持 CryptoMind">支持 CryptoMind</h2>
-    <p class="section-subtitle animate" style="text-align:center;margin-left:auto;margin-right:auto" data-i18n="我們是獨立開發團隊，您的每一份支持都直接投入伺服器維運和功能開發。
-      如果您喜歡這個項目，歡迎透過以下方式支持：">
-      我們是獨立開發團隊，您的每一份支持都直接投入伺服器維運和功能開發。
-      如果您喜歡這個項目，歡迎透過以下方式支持：
-    </p>
-    <div class="donation-box animate">
-      <h3 data-i18n="☕ 請我們喝杯咖啡">☕ 請我們喝杯咖啡</h3>
-      <p data-i18n="捐款不是義務，但每一份心意都能讓我們走得更遠。">捐款不是義務，但每一份心意都能讓我們走得更遠。</p>
-
-      <div class="wallet-group">
-        <label data-i18n="📱 TON / TON USDT（推薦）">📱 TON / TON USDT（推薦）</label>
-        <div class="wallet-address" onclick="copyAddress(this)">
-          <span>UQDvjDhEZ128EktbSBrK4CWrw1xTTbx4ojlZ-rF2OOS2H6Db</span>
-          <button class="copy-btn" onclick="event.stopPropagation();copyAddress(this.parentElement)" data-i18n="複製">複製</button>
-        </div>
-        <div class="wallet-note" data-i18n="透過 Tonkeeper 直接發送 TON 或 USDT（TON 主網）">透過 Tonkeeper 直接發送 TON 或 USDT（TON 主網）</div>
-      </div>
-
-      <a href="https://app.tonkeeper.com/donate/?amounts[]=1&amounts[]=5&amounts[]=10&amounts[]=50&text=Support%20CryptoMind" class="ton-donation-link" target="_blank" data-i18n="⚡ 一鍵 TON 捐款（Tonkeeper）">
-        ⚡ 一鍵 TON 捐款（Tonkeeper）
-      </a>
-
-      <div style="margin-top:24px;padding:16px;background:rgba(0,152,234,.06);border-radius:10px;text-align:center;font-size:.85rem;color:#8b95a8" data-i18n="donate.orSubscribe">
-        💎 或直接訂閱 <a href="https://cryptomind-ton.zeabur.app" style="color:#0098EA">PRO 會員</a>，獲得完整功能同時支持我們
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FOOTER ===== -->
-<footer>
-  <div class="footer-links">
-    <a href="https://cryptomind-ton.zeabur.app" target="_blank" data-i18n="開啟 App">開啟 App</a>
-    <a href="https://t.me/CryptoMind_TON_BOT/cmind" target="_blank" rel="noopener" data-i18n="Telegram Mini App">Telegram Mini App</a>
-    <a href="https://github.com/aaaa47080/cryptomind_public" target="_blank">GitHub</a>
-    <a href="https://cryptomind-ton.zeabur.app/legal/terms-of-service.html" target="_blank" rel="noopener" data-i18n="服務條款">服務條款</a>
-    <a href="https://cryptomind-ton.zeabur.app/legal/privacy-policy.html" target="_blank" rel="noopener" data-i18n="隱私政策">隱私政策</a>
-    <a href="#story" data-i18n="關於">關於</a>
-    <a href="#features" data-i18n="功能">功能</a>
-    <a href="#pricing" data-i18n="方案">方案</a>
-    <a href="#support" data-i18n="支持">支持</a>
-  </div>
-  <p data-i18n="© 2026 CryptoMind · 獨立開發，不屬於任何機構">© 2026 CryptoMind · 獨立開發，不屬於任何機構</p>
-  <p style="margin-top:8px;font-size:.75rem">Built on TON · Powered by 4 independent developers</p>
-</footer>
+  <p style="margin:0 0 8px"><span data-en>Built by five independent developers. CryptoMind is an independent project and is not affiliated with, endorsed by or sponsored by any blockchain project, cryptocurrency project or financial institution.</span><span data-zh>由五位獨立開發者打造。CryptoMind 是獨立專案，與任何區塊鏈專案、加密貨幣專案或金融機構無隸屬、背書或贊助關係。</span></p>
+  <p style="margin:0"><span data-en>All content is data analysis for reference only and is not investment advice. Markets are risky; decide for yourself.</span><span data-zh>所有內容僅為資料分析，供參考，不構成投資建議。市場有風險，請自行判斷。</span></p>
+</div></footer>
 
 <script>
-// Copy address function
-function copyAddress(el) {
-  const address = el.querySelector('span').textContent.trim();
-  navigator.clipboard.writeText(address).then(() => {
-    const btn = el.querySelector('.copy-btn');
-    const orig = btn.textContent;
-    btn.textContent = '✓ 已複製';
-    btn.style.background = 'rgba(74,222,128,.2)';
-    btn.style.color = '#4ade80';
-    setTimeout(() => {
-      btn.textContent = orig;
-      btn.style.background = '';
-      btn.style.color = '';
-    }, 2000);
-  });
-}
-
-// Scroll animation observer
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-document.querySelectorAll('.animate').forEach(el => observer.observe(el));
-</script>
-
-<!-- ===== I18N ENGINE ===== -->
-<script src="i18n.js"></script>
-<script>
-(function () {
-  'use strict';
-  const SUPPORTED = ['zh-TW', 'en', 'zh-CN', 'ru'];
-  const FLAGS = { 'zh-TW': '🇹🇼', en: '🇺🇸', 'zh-CN': '🇨🇳', ru: '🇷🇺' };
-  const TITLES = {
-    'zh-TW': 'CryptoMind — AI 驅動的加密分析 × TON 社群生態',
-    en: 'CryptoMind — AI-Powered Crypto Analysis × TON Ecosystem',
-    'zh-CN': 'CryptoMind — AI 驱动的加密分析 × TON 社群生态',
-    ru: 'CryptoMind — ИИ-аналитика криптовалют × Экосистема TON',
-  };
-
-  function detectLang() {
-    try {
-      const saved = localStorage.getItem('landing-lang');
-      if (saved && SUPPORTED.includes(saved)) return saved;
-    } catch (e) { /* ignore */ }
-    // 瀏覽器語言自動偵測
-    const nav = (navigator.language || navigator.languages?.[0] || '').toLowerCase();
-    if (nav.startsWith('zh')) return nav.includes('cn') || nav.includes('hans') ? 'zh-CN' : 'zh-TW';
-    if (nav.startsWith('ru')) return 'ru';
-    if (nav.startsWith('en')) return 'en';
-    return 'zh-TW';
+(function(){
+  var btn=document.getElementById('lang'),zh;
+  try{zh=localStorage.getItem('cm-lang')}catch(e){}
+  if(!zh)zh=/^zh/i.test(navigator.language||'')?'zh':'en';
+  function apply(){
+    document.body.classList.toggle('zh',zh==='zh');
+    document.documentElement.lang=zh==='zh'?'zh-Hant':'en';
+    btn.textContent=zh==='zh'?'EN':'繁中';
   }
-
-  function applyLang(lang) {
-    const dict = I18N_DICT[lang] || {};
-    // 套用到所有 data-i18n 元素
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      const val = dict[key];
-      if (val !== undefined) {
-        el.innerHTML = val;
-      } else if (el.dataset.i18nOriginal !== undefined) {
-        // 該語言無翻譯（zh-TW 使用 HTML 原文）→ 還原首次載入的原文，
-        // 避免「切到 en 再切回 zh-TW 仍是英文」的 bug。
-        el.innerHTML = el.dataset.i18nOriginal;
-      }
-    });
-    // 同步 html lang + title + 切換器狀態
-    document.documentElement.lang = lang;
-    document.title = TITLES[lang] || TITLES['zh-TW'];
-    const cur = document.getElementById('lang-current');
-    if (cur) cur.textContent = FLAGS[lang] || '🌐';
-    document.querySelectorAll('#lang-menu button').forEach(b => {
-      b.classList.toggle('active', b.dataset.lang === lang);
-    });
-    try { localStorage.setItem('landing-lang', lang); } catch (e) { /* ignore */ }
-    // 重新觸發滾動動畫（翻譯後元素仍應顯示）
-    document.querySelectorAll('.animate').forEach(el => {
-      if (el.classList.contains('visible')) return;
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight) el.classList.add('visible');
-    });
-  }
-
-  // 切換器互動
-  document.addEventListener('DOMContentLoaded', () => {
-    // 首次載入：記錄每個 data-i18n 元素的原文（HTML），
-    // 供 zh-TW（無字典翻譯）切回時還原。
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      el.dataset.i18nOriginal = el.innerHTML;
-    });
-    applyLang(detectLang());
-    const btn = document.getElementById('lang-btn');
-    const menu = document.getElementById('lang-menu');
-    if (btn && menu) {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.toggle('open');
-      });
-      document.addEventListener('click', () => menu.classList.remove('open'));
-      menu.addEventListener('click', (e) => {
-        const b = e.target.closest('button[data-lang]');
-        if (b) {
-          applyLang(b.dataset.lang);
-          menu.classList.remove('open');
-        }
-      });
-    }
+  btn.addEventListener('click',function(){
+    zh=zh==='zh'?'en':'zh';
+    try{localStorage.setItem('cm-lang',zh)}catch(e){}
+    apply();
   });
+  apply();
 })();
 </script>
-
 </body>
 </html>
