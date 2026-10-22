@@ -41,9 +41,12 @@ nav .btn{padding:7px 14px;font-size:14px}
 section{padding:56px 0}
 h2{font-size:clamp(24px,3.5vw,34px);line-height:1.25;margin:0 0 10px;color:#fff;letter-spacing:-.01em}
 .lead{color:var(--muted);max-width:680px;margin:0 0 30px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.grid .card{grid-column:span 2}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
-.card.wide{grid-column:1/-1}
+.grid .card.wide{grid-column:span 3}
+.ic{display:flex;align-items:center;justify-content:center;width:40px;height:40px;margin-bottom:14px;border-radius:11px;background:rgba(11,138,230,.14);color:var(--accent-2)}
+.ic svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .card h3{margin:0 0 6px;font-size:17px;color:#fff}
 .card p{margin:0;color:var(--muted);font-size:15px}
 .band{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -56,13 +59,40 @@ h2{font-size:clamp(24px,3.5vw,34px);line-height:1.25;margin:0 0 10px;color:#fff;
 .price .card.hl{border-color:var(--accent)}
 .price .amt{font-size:26px;font-weight:700;color:#fff;margin:4px 0 8px}
 .price .amt span{font-size:14px;color:var(--muted);font-weight:400}
+#team{background:radial-gradient(70% 55% at 50% 0%,rgba(11,138,230,.14),transparent 70%)}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.member{position:relative;margin:0;aspect-ratio:4/5;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--panel);transition:transform .25s,border-color .25s,box-shadow .25s}
+.member:hover{transform:translateY(-4px);border-color:rgba(56,189,248,.45);box-shadow:0 20px 40px -20px rgba(11,138,230,.6)}
+.member img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.member:hover img{transform:scale(1.04)}
+.member figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;gap:12px;align-items:flex-start;padding:90px 18px 18px;background:linear-gradient(to top,rgba(10,14,23,.97),rgba(10,14,23,.8) 45%,rgba(10,14,23,0))}
+.member .who{flex:1;min-width:0}
+.member .who.r{text-align:right}
+.member h3{margin:0 0 3px;font-size:18px;line-height:1.3;color:#fff}
+.member h3 small{margin-left:6px;font-size:13px;font-weight:500;color:var(--muted)}
+.member .role{margin:0;font-size:13px;line-height:1.5;color:#cbd5e1;text-wrap:balance}
+.member .nw{display:inline-block}
+.member .pos{display:inline-block;margin-bottom:6px;padding:0 9px;border-radius:999px;background:var(--accent);color:#fff;font-size:12px;font-weight:600;line-height:20px}
+.member .tag{display:inline-block;margin-top:10px;padding:3px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:var(--text);font-size:12px}
+.member .tag:hover{border-color:rgba(56,189,248,.6);background:rgba(56,189,248,.18);text-decoration:none}
+@media(prefers-reduced-motion:reduce){.member,.member img{transition:none}}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
 .chip{border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:14px;color:var(--text);background:var(--panel)}
-footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);font-size:13px}
-footer .row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
+.cta-box{padding:56px 24px;text-align:center;border:1px solid rgba(56,189,248,.25);border-radius:24px;background:radial-gradient(80% 120% at 50% 0%,rgba(11,138,230,.22),transparent 65%),var(--panel)}
+.cta-box .lead{margin:0 auto 26px}
+.cta-box .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:52px 0 28px;background:#070a11;color:var(--muted);font-size:14px}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:32px;padding-bottom:36px}
+.fbrand p{max-width:300px;margin:14px 0 0;text-wrap:balance}
+.fcol h4{margin:0 0 14px;font-size:13px;font-weight:600;color:#fff;letter-spacing:.03em}
+.fcol a{display:block;width:fit-content;margin-bottom:9px;color:var(--muted)}
+.fcol a:hover{color:#fff;text-decoration:none}
+.disc{padding:20px 0;border-top:1px solid var(--line);font-size:12.5px;line-height:1.7}
+.disc p{margin:0 0 6px}
+.fbar{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px}
 [data-zh]{display:none}
 body.zh [data-zh]{display:revert}body.zh [data-en]{display:none}
-@media(max-width:820px){.grid,.price,.shots,.two{grid-template-columns:1fr}.card.wide{grid-column:auto}.two{gap:24px}nav .links a.hide-s{display:none}}
+@media(max-width:820px){.grid,.price,.shots,.two,.team{grid-template-columns:1fr}.grid .card,.grid .card.wide{grid-column:auto}.two{gap:24px}nav .links a.hide-s{display:none}.foot{grid-template-columns:1fr 1fr;gap:28px}.fbrand{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -72,6 +102,7 @@ body.zh [data-zh]{display:revert}body.zh [data-en]{display:none}
     <a class="hide-s" href="#features"><span data-en>Features</span><span data-zh>功能</span></a>
     <a class="hide-s" href="#safety"><span data-en>Safety</span><span data-zh>安全</span></a>
     <a class="hide-s" href="#pricing"><span data-en>Pricing</span><span data-zh>方案</span></a>
+    <a class="hide-s" href="#team"><span data-en>Team</span><span data-zh>團隊</span></a>
     <a class="hide-s" href="https://github.com/CryptoMind-EVM/cryptomind">GitHub</a>
     <button class="lang" id="lang" type="button" aria-label="Language">繁中</button>
     <a class="btn primary" href="https://getcryptomind.com"><span data-en>Open app</span><span data-zh>開啟應用</span></a>
@@ -97,14 +128,14 @@ body.zh [data-zh]{display:revert}body.zh [data-en]{display:none}
   <h2><span data-en>What you can do</span><span data-zh>你可以做什麼</span></h2>
   <p class="lead"><span data-en>One assistant for following the market and keeping track of your own money.</span><span data-zh>一個助理，同時幫你追蹤市場與整理自己的錢。</span></p>
   <div class="grid">
-    <div class="card"><h3><span data-en>AI market analysis</span><span data-zh>AI 行情分析</span></h3><p><span data-en>A tool-using agent pulls live prices, technicals, news, on-chain data and filings, then explains how it got there. Crypto, US and Taiwan stocks; market pages also cover HK, JP, KR, A-shares, commodities and forex.</span><span data-zh>會使用工具的 agent 抓取即時價格、技術指標、新聞、鏈上資料與財報，並說明推論過程。涵蓋加密貨幣、美股、台股；市場頁另含港日韓陸股、商品與外匯。</span></p></div>
-    <div class="card"><h3><span data-en>One ledger</span><span data-zh>統一帳本</span></h3><p><span data-en>Log expenses, income and trades by chatting. Nothing is saved until you approve a card. Bind a Base wallet and transfers sync as verified holdings.</span><span data-zh>用對話記支出、收入與交易，按下確認卡片前不會儲存。綁定 Base 錢包後，轉帳會同步成已驗證持倉。</span></p></div>
-    <div class="card"><h3><span data-en>Money calendar</span><span data-zh>錢的行事曆</span></h3><p><span data-en>Earnings, Taiwan monthly revenue, token unlocks, FOMC / CPI / jobs reports and your own reminders, with an optional 08:00 daily brief.</span><span data-zh>財報、台股月營收、代幣解鎖、FOMC／CPI／非農與你自己的提醒，可選每天 08:00 的早報。</span></p></div>
-    <div class="card"><h3><span data-en>Judgment scoring</span><span data-zh>判斷評分</span></h3><p><span data-en>Write down your own market calls. When they expire, they are graded against actual closing prices. Only you can see them.</span><span data-zh>記下自己的市場判斷，到期後用實際收盤價評分，只有你看得到。</span></p></div>
-    <div class="card"><h3><span data-en>Scam checker</span><span data-zh>詐騙檢查</span></h3><p><span data-en>Free and no login: risk flags for EVM addresses plus community reports.</span><span data-zh>免費、不用登入：EVM 地址的風險標記與社群回報。</span></p></div>
-    <div class="card"><h3><span data-en>Bring your own key</span><span data-zh>自帶金鑰</span></h3><p><span data-en>Use 13 AI providers with your own API key, encrypted at rest. Guests get a few free questions every day.</span><span data-zh>支援 13 家 AI 供應商，用你自己的 API 金鑰，加密儲存。訪客每天有少量免費提問。</span></p></div>
-    <div class="card wide"><h3><span data-en>Friends and chat</span><span data-zh>好友與聊天室</span></h3><p><span data-en>Add friends and talk one-to-one with real-time delivery, typing indicators, replies, reactions and unsend. Call in the AI assistant from inside a chat to summarize the conversation or look something up together, without leaving it.</span><span data-zh>加好友、一對一聊天，即時送達並顯示對方輸入中，支援回覆、表情與收回訊息。聊天時可以直接叫出 AI 助理整理對話內容或一起查資料，不用離開對話。</span></p></div>
-    <div class="card wide"><h3><span data-en>Make the AI yours</span><span data-zh>讓 AI 照你的方式工作</span></h3><p><span data-en>Pick the model and connect your own API key from 13 providers, and save several models per provider. The AI can propose things worth remembering about you, saved only after you approve. Turn the built-in skills on or off, or write up to 10 of your own.</span><span data-zh>自選模型並接上自己的 API 金鑰（13 家供應商），同一家可存多個模型。AI 會提議值得記住的事，經你同意才會儲存。內建技能可以開關，也能自己寫最多 10 個。</span></p></div>
+    <div class="card"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></span><h3><span data-en>AI market analysis</span><span data-zh>AI 行情分析</span></h3><p><span data-en>A tool-using agent pulls live prices, technicals, news, on-chain data and filings, then explains how it got there. Crypto, US and Taiwan stocks; market pages also cover HK, JP, KR, A-shares, commodities and forex.</span><span data-zh>會使用工具的 agent 抓取即時價格、技術指標、新聞、鏈上資料與財報，並說明推論過程。涵蓋加密貨幣、美股、台股；市場頁另含港日韓陸股、商品與外匯。</span></p></div>
+    <div class="card"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M16 15h2"/></svg></span><h3><span data-en>One ledger</span><span data-zh>統一帳本</span></h3><p><span data-en>Log expenses, income and trades by chatting. Nothing is saved until you approve a card. Bind a Base wallet and transfers sync as verified holdings.</span><span data-zh>用對話記支出、收入與交易，按下確認卡片前不會儲存。綁定 Base 錢包後，轉帳會同步成已驗證持倉。</span></p></div>
+    <div class="card"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><h3><span data-en>Money calendar</span><span data-zh>錢的行事曆</span></h3><p><span data-en>Earnings, Taiwan monthly revenue, token unlocks, FOMC / CPI / jobs reports and your own reminders, with an optional 08:00 daily brief.</span><span data-zh>財報、台股月營收、代幣解鎖、FOMC／CPI／非農與你自己的提醒，可選每天 08:00 的早報。</span></p></div>
+    <div class="card"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span><h3><span data-en>Judgment scoring</span><span data-zh>判斷評分</span></h3><p><span data-en>Write down your own market calls. When they expire, they are graded against actual closing prices. Only you can see them.</span><span data-zh>記下自己的市場判斷，到期後用實際收盤價評分，只有你看得到。</span></p></div>
+    <div class="card"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><h3><span data-en>Scam checker</span><span data-zh>詐騙檢查</span></h3><p><span data-en>Free and no login: risk flags for EVM addresses plus community reports.</span><span data-zh>免費、不用登入：EVM 地址的風險標記與社群回報。</span></p></div>
+    <div class="card"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></span><h3><span data-en>Bring your own key</span><span data-zh>自帶金鑰</span></h3><p><span data-en>Use 13 AI providers with your own API key, encrypted at rest. Guests get a few free questions every day.</span><span data-zh>支援 13 家 AI 供應商，用你自己的 API 金鑰，加密儲存。訪客每天有少量免費提問。</span></p></div>
+    <div class="card wide"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg></span><h3><span data-en>Friends and chat</span><span data-zh>好友與聊天室</span></h3><p><span data-en>Add friends and talk one-to-one with real-time delivery, typing indicators, replies, reactions and unsend. Call in the AI assistant from inside a chat to summarize the conversation or look something up together, without leaving it.</span><span data-zh>加好友、一對一聊天，即時送達並顯示對方輸入中，支援回覆、表情與收回訊息。聊天時可以直接叫出 AI 助理整理對話內容或一起查資料，不用離開對話。</span></p></div>
+    <div class="card wide"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><h3><span data-en>Make the AI yours</span><span data-zh>讓 AI 照你的方式工作</span></h3><p><span data-en>Pick the model and connect your own API key from 13 providers, and save several models per provider. The AI can propose things worth remembering about you, saved only after you approve. Turn the built-in skills on or off, or write up to 10 of your own.</span><span data-zh>自選模型並接上自己的 API 金鑰（13 家供應商），同一家可存多個模型。AI 會提議值得記住的事，經你同意才會儲存。內建技能可以開關，也能自己寫最多 10 個。</span></p></div>
   </div>
 </div></section>
 
@@ -140,21 +171,90 @@ body.zh [data-zh]{display:revert}body.zh [data-en]{display:none}
   </div>
 </div></section>
 
-<section><div class="wrap" style="text-align:center">
-  <h2><span data-en>Ready to try it?</span><span data-zh>準備好試試看了嗎？</span></h2>
-  <p class="lead" style="margin:0 auto 24px"><span data-en>Ask your first question in under a minute.</span><span data-zh>一分鐘內問出你的第一個問題。</span></p>
-  <a class="btn primary" href="https://getcryptomind.com"><span data-en>Open CryptoMind</span><span data-zh>開啟 CryptoMind</span></a>
+<section id="team"><div class="wrap">
+  <h2><span data-en>Who builds it</span><span data-zh>開發團隊</span></h2>
+  <p class="lead"><span data-en>CryptoMind is built by a small team of independent developers.</span><span data-zh>CryptoMind 由一群獨立開發者打造。</span></p>
+  <div class="team">
+    <figure class="member">
+      <img src="img/team-tsai-danny.jpg" alt="Yun-Hsu Tsai (left) and Danny Chen (right)" width="800" height="1000" loading="lazy">
+      <figcaption>
+        <div class="who">
+          <span class="pos"><span data-en>Left</span><span data-zh>左</span></span>
+          <h3><span data-en>Yun-Hsu Tsai</span><span data-zh>蔡昀旴</span></h3>
+          <p class="role"><span data-en>Platform art &amp; sticker designer</span><span data-zh>平台美術貼圖設計師</span></p>
+        </div>
+        <div class="who r">
+          <span class="pos"><span data-en>Right</span><span data-zh>右</span></span>
+          <h3><span data-en>Danny Chen</span><span data-zh>陳鈺澔<small>Danny</small></span></h3>
+          <p class="role"><span data-en>Platform planning &amp; AI systems engineer</span><span data-zh><span class="nw">平台規劃／</span><span class="nw">AI 系統開發工程師</span></span></p>
+          <a class="tag" href="https://github.com/aaaa47080">GitHub ↗</a>
+        </div>
+      </figcaption>
+    </figure>
+    <figure class="member">
+      <img src="img/team-wang.jpg" alt="Ting-Shen Wang" width="800" height="1000" loading="lazy">
+      <figcaption>
+        <div class="who">
+          <h3><span data-en>Ting-Shen Wang</span><span data-zh>王庭甡</span></h3>
+          <p class="role"><span data-en>Platform QA engineer</span><span data-zh>平台功能測試工程師</span></p>
+        </div>
+      </figcaption>
+    </figure>
+    <figure class="member">
+      <img src="img/team-shih.jpg" alt="Po-Chun Shih" width="800" height="1000" loading="lazy">
+      <figcaption>
+        <div class="who">
+          <h3><span data-en>Po-Chun Shih</span><span data-zh>施柏均</span></h3>
+          <p class="role"><span data-en>Backend engineer &amp; security consultant</span><span data-zh>後端開發工程師／資安顧問</span></p>
+          <a class="tag" href="https://williampcs.github.io/RunningCoach/"><span data-en>Side project: Running Coach</span><span data-zh>個人作品：跑步教練</span> ↗</a>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
 </div></section>
 
-<footer><div class="wrap">
-  <div class="row">
-    <a href="https://getcryptomind.com">getcryptomind.com</a>
-    <a href="https://github.com/CryptoMind-EVM/cryptomind">GitHub</a>
-    <a href="https://t.me/getcryptomind_bot">Telegram</a>
-    <a href="mailto:brief@getcryptomind.com">brief@getcryptomind.com</a>
+<section><div class="wrap"><div class="cta-box">
+  <h2><span data-en>Ready to try it?</span><span data-zh>準備好試試看了嗎？</span></h2>
+  <p class="lead"><span data-en>Ask your first question in under a minute. No wallet needed.</span><span data-zh>一分鐘內問出你的第一個問題，不需要錢包。</span></p>
+  <div class="cta">
+    <a class="btn primary" href="https://getcryptomind.com"><span data-en>Open CryptoMind</span><span data-zh>開啟 CryptoMind</span></a>
+    <a class="btn ghost" href="https://t.me/getcryptomind_bot"><span data-en>Open in Telegram</span><span data-zh>在 Telegram 開啟</span></a>
   </div>
-  <p style="margin:0 0 8px"><span data-en>Built by five independent developers. CryptoMind is an independent project and is not affiliated with, endorsed by or sponsored by any blockchain project, cryptocurrency project or financial institution.</span><span data-zh>由五位獨立開發者打造。CryptoMind 是獨立專案，與任何區塊鏈專案、加密貨幣專案或金融機構無隸屬、背書或贊助關係。</span></p>
-  <p style="margin:0"><span data-en>All content is data analysis for reference only and is not investment advice. Markets are risky; decide for yourself.</span><span data-zh>所有內容僅為資料分析，供參考，不構成投資建議。市場有風險，請自行判斷。</span></p>
+</div></div></section>
+
+<footer><div class="wrap">
+  <div class="foot">
+    <div class="fbrand">
+      <a class="brand" href="#top"><img src="img/icon-128.png" alt="">CryptoMind</a>
+      <p><span data-en>AI market analyst and money ledger for crypto, US and Taiwan stocks.</span><span data-zh>加密貨幣、美股與台股的 AI 行情分析與記帳助理。</span></p>
+    </div>
+    <div class="fcol">
+      <h4><span data-en>Product</span><span data-zh>產品</span></h4>
+      <a href="#features"><span data-en>Features</span><span data-zh>功能</span></a>
+      <a href="#safety"><span data-en>Safety</span><span data-zh>安全</span></a>
+      <a href="#pricing"><span data-en>Pricing</span><span data-zh>方案</span></a>
+      <a href="#team"><span data-en>Team</span><span data-zh>團隊</span></a>
+    </div>
+    <div class="fcol">
+      <h4><span data-en>Community</span><span data-zh>社群</span></h4>
+      <a href="https://x.com/getCryptoMind">X</a>
+      <a href="https://t.me/getcryptomind_bot">Telegram</a>
+      <a href="https://github.com/CryptoMind-EVM/cryptomind">GitHub</a>
+    </div>
+    <div class="fcol">
+      <h4><span data-en>Contact</span><span data-zh>聯絡</span></h4>
+      <a href="https://getcryptomind.com">getcryptomind.com</a>
+      <a href="mailto:brief@getcryptomind.com">brief@getcryptomind.com</a>
+    </div>
+  </div>
+  <div class="disc">
+    <p><span data-en>Built by five independent developers. CryptoMind is an independent project and is not affiliated with, endorsed by or sponsored by any blockchain project, cryptocurrency project or financial institution.</span><span data-zh>由五位獨立開發者打造。CryptoMind 是獨立專案，與任何區塊鏈專案、加密貨幣專案或金融機構無隸屬、背書或贊助關係。</span></p>
+    <p><span data-en>All content is data analysis for reference only and is not investment advice. Markets are risky; decide for yourself.</span><span data-zh>所有內容僅為資料分析，供參考，不構成投資建議。市場有風險，請自行判斷。</span></p>
+  </div>
+  <div class="fbar">
+    <span>© 2025–2026 CryptoMind contributors</span>
+    <span><span data-en>Code under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>. Logo and team photos: all rights reserved.</span><span data-zh>原始碼採 <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a> 授權；Logo 與團隊照片保留所有權利。</span></span>
+  </div>
 </div></footer>
 
 <script>

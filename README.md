@@ -5,6 +5,7 @@ US and Taiwan stocks. English and Traditional Chinese, no build step.
 
 - App: <https://getcryptomind.com>
 - Source code: <https://github.com/CryptoMind-EVM/cryptomind>
-- License: Apache-2.0
+- License: Apache-2.0 for the code. The logo (`img/icon-128.png`) and team photos (`img/team-*.jpg`) are not covered by
+  it; all rights reserved.
 
 Open `index.html` in a browser, or run `python3 -m http.server`.
